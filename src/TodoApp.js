@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Typography from '@material-ui/core/Typography'
 import Paper from '@material-ui/core/Paper'
 import AppBar from '@material-ui/core/AppBar'
@@ -7,15 +7,36 @@ import Toolbar from '@material-ui/core/Toolbar'
 import TodoList from './TodoList'
 import TodoForm from './TodoForm'
 import uuid from 'uuid/dist/v4'
+import { Card, Button } from 'antd'
+
 
 
 
 function TodoApp() {  // var initialTodos=JSON.parse(localStorage.getItem("todos")||"[]");
     const initialTodos = [];
     const [todos, setTodos] = useState(initialTodos);
+    const [quote, setQuote] = useState('');
+    const [author, setAuthor] = useState('');
 
+    const handleClick = () => {
+        getQuotes()
+    }
+    useEffect(() => {
+        getQuotes()
+    }, [])
 
-
+    const getQuotes = () => {
+        let inspo = 'https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json'
+        fetch(inspo)
+            .then((res) => res.json())
+            .then((data) => {
+                let dataQuotes = data.quotes;
+                let randomNum = Math.floor(Math.random() * dataQuotes.length);
+                let randomQuote = data.quotes[randomNum];
+                setQuote(randomQuote.quote);
+                setAuthor(randomQuote.author);
+            })
+    }
     const addTodo = addTodoText => {
         setTodos([...todos, { id: uuid(), task: addTodoText, completed: false }]);
     };
@@ -33,33 +54,65 @@ function TodoApp() {  // var initialTodos=JSON.parse(localStorage.getItem("todos
             todo.id === todoId ? { ...todo, task: newTask } : todo);
         setTodos(updatedTodos);
     }
+
+
+    console.log(todos)
     return (
         <Paper
             style={{
                 padding: 0,
                 margin: 0,
                 height: "100vh",
-                backgroundColor: '#3C1053FF',
+                backgroundColor: '#1f456e',
+                overflowY: 'scroll'
             }}>
-            <AppBar position="static" style={{ backgroundColor: '#DF6589FF' }}>
+
+            <AppBar position="static" style={{ backgroundColor: 'white' }}>
                 <Toolbar style={{ marginLeft: "200" }}>
 
-                    <Typography >TODO APP</Typography>
+                    <Typography style={{ fontFamily: 'Comic Sans MS', color: '#1f456e', fontSize: '18px', marginLeft: '630px', position: 'fixed' }} >TODO APP</Typography>
                 </Toolbar>
 
             </AppBar>
-            <Grid container justify="center" style={{ marginTop: "1rem" }}>
-                <Grid item xs={11} md={8} lg={4}>
-                    <center> <Typography style={{
-                        color: "white",
+            <div style={{ display: 'flex' }}>
 
-                    }}>TODO MANAGER</Typography>
 
-                        <TodoForm addTodo={addTodo} />
-                        <TodoList todos={todos} removeTodo={removeTodo} toggleTodo={toggleTodo} editTodo={editTodo} />
-                    </center>
+                <Grid container justify="center" style={{ marginTop: "1rem" }}>
+                    <Grid item xs={11} md={8} lg={4}>
+                        <center>
+                            <Card
+                                hoverable
+                                style={{ borderRadius: '8px', height: '130px', width: 'auto', marginBottom: '20px' }}
+                            >
+                                <p style={{ fontFamily: 'Comic Sans MS' }}>{quote}</p>
+                                <p style={{ marginLeft: '100px' }}>-{author} <Button style={{ borderRadius: '10px', backgroundColor: '#1f456e', color: 'white', marginLeft: '40px' }} onClick={() => handleClick()}>Change Quote</Button></p>
+                            </Card><Typography style={{
+                                color: "white",
+                                fontFamily: 'Comic Sans MS'
+
+                            }}>TODO MANAGER</Typography><br />
+                            <div style={{ display: 'flex' }}>
+                                <Typography style={{
+                                    color: "white",
+                                    fontFamily: 'Comic Sans MS',
+                                    marginLeft: '100px'
+                                }}>ToDo : {todos.length - todos.filter((x, i) => { return x.completed; }).length}</Typography>
+
+                                <Typography style={{
+                                    color: "white",
+                                    fontFamily: 'Comic Sans MS',
+                                    marginLeft: '170px'
+
+                                }}>Done : {todos.filter((x, i) => { return x.completed; }).length}</Typography>
+                            </div>
+
+
+                            <TodoForm addTodo={addTodo} />
+                            <TodoList todos={todos} removeTodo={removeTodo} toggleTodo={toggleTodo} editTodo={editTodo} />
+                        </center>
+                    </Grid>
                 </Grid>
-            </Grid>
+            </div>
         </Paper>
     )
 }

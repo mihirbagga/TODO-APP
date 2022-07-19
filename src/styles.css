@@ -1,0 +1,17 @@
+.ant-tabs-tab-btn {
+    color: white;
+    font-family: comic sans ms;
+}
+
+.ant-tabs-tab .ant-tabs-tab-active {
+    color: black;
+    font-family: comic sans ms;
+}
+
+.ant-tabs-nav-wrap {
+    margin-left: 200px;
+}
+
+.ant-tabs-ink-bar .ant-tabs-ink-bar-animated {
+    background-color: black;
+}

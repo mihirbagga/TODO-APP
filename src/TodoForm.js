@@ -15,7 +15,7 @@ function TodoForm({ addTodo }) {
             style={{
 
                 margin: "1rem 0", padding: "0 1rem",
-                backgroundColor: '#DF6589FF'
+                backgroundColor: 'white'
             }}>
             <form
                 onSubmit={

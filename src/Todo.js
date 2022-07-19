@@ -8,32 +8,31 @@ import IconButton from '@material-ui/core/IconButton'
 import DeleteIcon from '@material-ui/icons/Delete'
 import EditIcon from '@material-ui/icons/Edit'
 import EditTodoForm from './EditTodoForm'
-function Todo({task,completed,removeTodo,id,toggleTodo,editTodo})
-{
-const [isEditing,toggle]=useToggleState(false);
+function Todo({ task, completed, removeTodo, id, toggleTodo, editTodo }) {
+    const [isEditing, toggle] = useToggleState(false);
 
-    return(
+    return (
         <ListItem>
-            {isEditing?(<EditTodoForm editTodo={editTodo} task={task} toggleEditForm={toggle} id={id}/>):(
+            {isEditing ? (<EditTodoForm editTodo={editTodo} task={task} toggleEditForm={toggle} id={id} />) : (
                 <>
-            <Checkbox tabIndex={-1} checked={completed} onClick={()=>toggleTodo(id)}
-            style={{color:'white'}}/>
+                    <Checkbox tabIndex={-1} checked={completed} onClick={() => toggleTodo(id)}
+                        style={{ color: '#1f456e' }} />
 
-           
-            <ListItemText style={{color:'white', textDecoration:completed?"line-through":"none"}}>
-            {task}
-            </ListItemText>
-            <ListItemSecondayAction>
-                <IconButton onClick={()=>removeTodo(id)}>
-                    <DeleteIcon
-                    style={{color:"white"}}/>
-                </IconButton>
-                <IconButton onClick={toggle}>
-                    <EditIcon
-                    style={{color:"white"}} />
-                </IconButton>
-            </ListItemSecondayAction>
-            </>
+
+                    <ListItemText style={{ color: '#1f456e', textDecoration: completed ? "line-through" : "none" }}>
+                        {task}
+                    </ListItemText>
+                    <ListItemSecondayAction>
+                        <IconButton onClick={() => removeTodo(id)}>
+                            <DeleteIcon
+                                style={{ color: "#1f456e" }} />
+                        </IconButton>
+                        <IconButton onClick={toggle}>
+                            <EditIcon
+                                style={{ color: "#1f456e" }} />
+                        </IconButton>
+                    </ListItemSecondayAction>
+                </>
             )}
         </ListItem>
     )
