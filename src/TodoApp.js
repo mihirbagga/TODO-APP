@@ -12,12 +12,7 @@ import EditTodoForm from './EditTodoForm'
 
 function TodoApp()
 {  // var initialTodos=JSON.parse(localStorage.getItem("todos")||"[]");
-    const initialTodos=[
-    {id:1,task:"Clean",completed:false},
-    {id:2,task:"Wash Car",completed:true},
- {id:3,task:"lunch",completed:false},
-    
-];
+    const initialTodos=[];
 const[todos,setTodos]=useState(initialTodos);
 
 
