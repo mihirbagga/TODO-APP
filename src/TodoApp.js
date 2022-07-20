@@ -13,8 +13,7 @@ import { Card, Button } from 'antd'
 
 
 function TodoApp() {  // var initialTodos=JSON.parse(localStorage.getItem("todos")||"[]");
-    const initialTodos = [];
-    const [todos, setTodos] = useState(initialTodos);
+    const [todos, setTodos] = useState(localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : []);
     const [quote, setQuote] = useState('');
     const [author, setAuthor] = useState('');
 
@@ -27,8 +26,7 @@ function TodoApp() {  // var initialTodos=JSON.parse(localStorage.getItem("todos
 
     const getQuotes = () => {
         let inspo = 'https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json'
-        fetch(inspo)
-            .then((res) => res.json())
+        fetch(inspo).then((res) => res.json())
             .then((data) => {
                 let dataQuotes = data.quotes;
                 let randomNum = Math.floor(Math.random() * dataQuotes.length);
@@ -39,24 +37,28 @@ function TodoApp() {  // var initialTodos=JSON.parse(localStorage.getItem("todos
     }
     const addTodo = addTodoText => {
         setTodos([...todos, { id: uuid(), task: addTodoText, completed: false }]);
+        localStorage.setItem("data", JSON.stringify([...todos, { id: uuid(), task: addTodoText, completed: false }]))
     };
     const removeTodo = todoId => {
         const updatedTodos = todos.filter(todo => todo.id !== todoId)
+        localStorage.setItem("data", JSON.stringify(updatedTodos))
         setTodos(updatedTodos);
     };
     const toggleTodo = todoId => {
         const updatedTodos = todos.map(todo =>
             todo.id === todoId ? { ...todo, completed: !todo.completed } : todo);
+        localStorage.setItem("data", JSON.stringify(updatedTodos))
+
         setTodos(updatedTodos);
     };
     const editTodo = (todoId, newTask) => {
         const updatedTodos = todos.map(todo =>
             todo.id === todoId ? { ...todo, task: newTask } : todo);
+        localStorage.setItem("data", JSON.stringify(updatedTodos))
         setTodos(updatedTodos);
     }
 
 
-    console.log(todos)
     return (
         <Paper
             style={{
