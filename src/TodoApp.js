@@ -26,7 +26,8 @@ function TodoApp() {  // var initialTodos=JSON.parse(localStorage.getItem("todos
 
     const getQuotes = () => {
         let inspo = 'https://gist.githubusercontent.com/camperbot/5a022b72e96c4c9585c32bf6a75f62d9/raw/e3c6895ce42069f0ee7e991229064f167fe8ccdc/quotes.json'
-        fetch(inspo).then((res) => res.json())
+        fetch(inspo)
+            .then((res) => res.json())
             .then((data) => {
                 let dataQuotes = data.quotes;
                 let randomNum = Math.floor(Math.random() * dataQuotes.length);
@@ -97,13 +98,14 @@ function TodoApp() {  // var initialTodos=JSON.parse(localStorage.getItem("todos
                                 <Typography style={{
                                     color: "white",
                                     fontFamily: 'Comic Sans MS',
-                                    marginLeft: '100px'
+                                    marginLeft: '50px'
                                 }}>ToDo : {todos.length - todos.filter((x, i) => { return x.completed; }).length}</Typography>
+                                <Button onClick={() => { localStorage.clear(); window.location.reload() }} style={{ borderRadius: '10px', backgroundColor: '#1f456e', color: 'white', marginLeft: '80px', marginRight: '80px' }}>Reset</Button>
 
                                 <Typography style={{
                                     color: "white",
                                     fontFamily: 'Comic Sans MS',
-                                    marginLeft: '170px'
+                                    marginLeft: '10px'
 
                                 }}>Done : {todos.filter((x, i) => { return x.completed; }).length}</Typography>
                             </div>
